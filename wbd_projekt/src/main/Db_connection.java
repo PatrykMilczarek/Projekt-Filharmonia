@@ -2,6 +2,10 @@ package main;
 
 
 import java.sql.DriverManager;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 //import javafx.collections.FXCollections;
 //import javafx.collections.ObservableList;
@@ -15,14 +19,15 @@ public class Db_connection {
 	private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:XE";
 
-    private static final String USER = "Ewelina";
-    private static final String PASS = "password";
+    private static String USER;
+    private static String PASS;
     
     public static Connection conn;
     
-    public Db_connection(){
+   
+	public Db_connection(){
 
-
+		getDBUserFromFile();
         try{
             //STEP 2: Register JDBC driver
             Class.forName(JDBC_DRIVER);
@@ -42,6 +47,18 @@ public class Db_connection {
 
     }
     
+    public void getDBUserFromFile(){
+    	try {
+    	    BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\Patryk Milczarek\\git\\Projekt-Filharmonia\\wbd_projekt\\src\\main\\dbinfo.txt"));
+    	 
+    	    setUSER(in.readLine());
+    	    setPASS(in.readLine());
+    	
+    	    in.close();
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
     public void closeConnection(){
         try{
         conn.close();
@@ -119,5 +136,12 @@ PreparedStatement preparedStatement;
     	
     }
 
-    
+    public static void setUSER(String uSER) {
+		USER = uSER;
+	}
+
+	public static void setPASS(String pASS) {
+		PASS = pASS;
+	}
+
 }
