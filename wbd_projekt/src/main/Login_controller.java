@@ -1,7 +1,12 @@
 package main;
 
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -26,8 +31,17 @@ public class Login_controller {
 		if (check) {
 			
 			Db_connection.checkUserType(login, pass);
+			CurrentUser.id_current_user=Db_connection.getUserId(login, pass);
 			
 			main.login_stage.hide();
+			
+			try{
+			Parent main_root = FXMLLoader.load(getClass().getResource("/main/main_window.fxml"));
+			main.main_stage.setScene(new Scene(main_root));
+			main.main_stage.setTitle("Management System");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			main.main_stage.show();
 			
 			
