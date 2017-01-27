@@ -7,10 +7,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class main extends Application {
-	public static Stage main_stage;
+	public static Stage main_stage,login_stage;
 	
 	public void start(Stage primaryStage) {
-		
+		login_stage=primaryStage;
 		Db_connection db = new Db_connection();
 		
 		try {
@@ -23,10 +23,10 @@ public class main extends Application {
 			Scene scene_main = new Scene(main_root);
 			
 			main_stage.setScene(scene_main);
-			primaryStage.setScene(scene_login);
+			login_stage.setScene(scene_login);
 			
 			
-			primaryStage.show();
+			login_stage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
