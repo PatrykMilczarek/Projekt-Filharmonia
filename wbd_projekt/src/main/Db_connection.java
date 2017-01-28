@@ -4,6 +4,10 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,15 +20,17 @@ import java.sql.*;
 
 public class Db_connection {
 
-	// dodac wczytywanie z pliku
-
 	private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:XE";
-
+	
+    public Statement stmt = null;
+    
 	private static String USER;
 	private static String PASS;
 
 	public static Connection conn;
+	
+	ObservableList<Employee> worker = FXCollections.observableArrayList();
 
 	public Db_connection() {
 
@@ -51,7 +57,7 @@ public class Db_connection {
 	public void getDBUserFromFile() {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(
-					"C:\\Users\\Patryk Milczarek\\git\\Projekt-Filharmonia\\wbd_projekt\\src\\main\\dbinfo.txt"));
+					"C:\\Smart Git\\Projekt-Filharmonia\\wbd_projekt\\src\\main\\dbinfo.txt"));
 
 			setUSER(in.readLine());
 			setPASS(in.readLine());
@@ -180,6 +186,7 @@ public class Db_connection {
 		return id;
 	}
 
+	//nie ma insertowania wlaciciela
 	public static void add_symphony_db(String symph_name, String symph_address, String symph_num_house,
 			String symph_town, String symph_tel_num, String symph_owner) {
 		PreparedStatement preparedStatement;
@@ -191,9 +198,10 @@ public class Db_connection {
 			preparedStatement.setString(1, symph_name);
 			preparedStatement.setString(2, symph_town);
 			preparedStatement.setString(3, "xxx");
-			preparedStatement.setString(2, symph_town);
-			preparedStatement.setString(2, symph_town);
-			preparedStatement.setString(2, symph_town);
+			preparedStatement.setString(4, symph_address);
+			preparedStatement.setString(5, symph_num_house);
+			preparedStatement.setString(6, symph_tel_num);
+			preparedStatement.setString(7, "yyy");
 			preparedStatement.executeQuery();
 
 		} catch (Exception e) {
@@ -209,5 +217,58 @@ public class Db_connection {
 	public static void setPASS(String pASS) {
 		PASS = pASS;
 	}
+	
+	  
+	public ObservableList<Employee> getEmployeeInfo(){
+		
+	        ObservableList<Employee> flights = FXCollections.observableArrayList();
+
+	        try{
+	            System.out.println("Creating statement...");
+	            stmt = conn.createStatement();
+
+	            String sql = "SELECT imie,nazwisko,ulica,nr_budynku, miasto, pesel, nazwa_stanowiska, nazwa FROM Pracownicy join stanowiska using(id_pracownika) join filharmonie using(id_filharmonii) ";
+	            ResultSet rs = stmt.executeQuery(sql);
+
+
+	            while(rs.next()){
+
+	                String name_worker  = rs.getInt("imie");
+
+	                String surname_worker = rs.getString("nazwisko");
+	                String address_worker = rs.getString("ulica");
+
+	                String house_num_worker = rs.getDate("nr_budynku");
+	                String town_worker = rs.getString("miasto");
+
+	                String pesel_worker = rs.getString("pesel");
+	                String profession_worker = rs.getString("nazwa_stanowiska");
+	                String symphony_worker = rs.getString("nazwa");
+
+
+	               worker.add(new Employee(name_worker, surname_worker, address_worker, house_num_worker, town_worker, pesel_worker, profession_worker, symphony_worker));
+
+	            }
+
+	            rs.close();
+	            stmt.close();
+
+
+
+	        }catch(SQLException se){
+	            se.printStackTrace();
+	        }finally{
+	            try{
+	                if(stmt!=null)
+	                    stmt.close();
+	            }catch(SQLException se2){
+	                se2.printStackTrace();
+	            }
+
+
+	        }
+
+	        return flights;
+	    }
 
 }
