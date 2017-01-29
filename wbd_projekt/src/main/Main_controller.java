@@ -27,7 +27,7 @@ e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_la
 @FXML public TableColumn<Event, Date> event_date;
 @FXML public TableColumn<Event, Integer> event_seats;
 @FXML public TableColumn<Event, String> event_symphony;
-public ListView<String> user_list_view,salary_history_list;
+public ListView<String> user_list_view,salary_history_list, symphony_list_view;
 
 
 @FXML public TableView<Employee> EmployeeTable;
@@ -52,7 +52,7 @@ public void initialize(){
 	initColumnsEmployee();
 	showUserInfo();
 	refreshEmployee();
-	
+	showSymphonies();
 	
 	
 }
@@ -99,6 +99,46 @@ public void showUserInfo(){
 	
 	user_list_view.setItems(info_items);
 	salary_history_list.setItems(salary_items);
+}
+
+public void showSymphonies(){
+	//HashMap<Integer,String> info_map=Db_connection.getSymphonyDB();
+	//ObservableList<String> info_items =FXCollections.observableArrayList();
+	
+	HashMap<Integer,String> symphony_map=Db_connection.getSymphonyDB();
+	ObservableList<String> symph_items =FXCollections.observableArrayList();
+	
+
+	/*for(int i=1;i<symphony_map.size();i=i+1){
+	
+		symph_items.add("Nazwa filharmonii: "+ symphony_map.get(i) +
+		"Adres: "+ symphony_map.get(i+1)+ " " +symphony_map.get(i+2)+ " " + symphony_map.get(i+3)+
+		"Numer telefonu: " + symphony_map.get(i+4)+
+		"Nazwisko wlasciciela: " + symphony_map.get(i+5));
+	}*/
+	
+	
+	
+	
+
+	
+	//symphony_list_view.setItems(symph_items);
+
+}
+
+public void showSymphonyInfo(){
+	
+	String symphonySelected;
+	symphonySelected = symphony_list_view.getSelectionModel().getSelectedItem();
+    
+    HashMap<String,String> symphony_map=Db_connection.findSymphony(symphonySelected);
+
+    symph_name.setText(symphony_map.get("nazwa"));
+	symph_address.setText(symphony_map.get("ulica"));
+	symph_num_house.setText(symphony_map.get("nr_budynku"));
+	symph_town.setText(symphony_map.get("miasto"));
+	symph_tel_num.setText(symphony_map.get("nr_telefonu"));
+	symph_owner.setText(symphony_map.get("wlasciciele"));
 }
 
 

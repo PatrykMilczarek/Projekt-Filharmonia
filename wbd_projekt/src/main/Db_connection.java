@@ -56,7 +56,7 @@ public class Db_connection {
 	public void getDBUserFromFile() {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(
-					"C:\\Users\\Patryk Milczarek\\git\\Projekt-Filharmonia\\wbd_projekt\\src\\main\\dbinfo.txt"));
+					"C:\\Smart GIT\\Projekt-Filharmonia\\wbd_projekt\\src\\main\\dbinfo.txt"));
 
 			setUSER(in.readLine());
 			setPASS(in.readLine());
@@ -130,9 +130,7 @@ public class Db_connection {
 				
 			}
 			
-			
-			
-			
+		
 			
 		
 			
@@ -146,6 +144,76 @@ public class Db_connection {
 		
 		
 	}
+	
+public static HashMap<Integer,String> getSymphonyDBlist() {
+		
+		HashMap<Integer,String> map = new HashMap<Integer,String>();
+
+		PreparedStatement preparedStatement;
+
+		String query = "select nazwa, filharmonie.ulica, filharmonie.nr_budynku, filharmonie.miasto, filharmonie.nr_telefonu, wlasciciele.nazwisko from Filharmonie join Wlasciciele_Filharmonie using(id_filharmonii) join Wlasciciele using(id_wlasciciela)";
+		
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			//preparedStatement.setString(1, CurrentUser.id_current_user+"");
+		
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			
+			int i=1;
+			while(resultSet.next()){
+				
+	
+				map.put(i++,resultSet.getString("nazwa_filharmonii"));
+				
+			}
+			
+			resultSet.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return map;
+		
+		
+	}
+	
+public static HashMap<String,String> findSymphony(String name) {
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+
+		PreparedStatement preparedStatement;
+
+		String query = "select nazwa, filharmonie.ulica, filharmonie.nr_budynku, filharmonie.miasto, filharmonie.nr_telefonu, wlasciciele.nazwisko from Filharmonie where filharmonie.nazwa=? join Wlasciciele_Filharmonie using(id_filharmonii) join Wlasciciele using(id_wlasciciela)";
+		
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, name);
+		
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+		
+				map.put("nazwa",resultSet.getString("nazwa"));
+				map.put("ulica",resultSet.getString("ulica"));
+				map.put("nr_budynku",resultSet.getString("nr_budynku"));
+				map.put("miasto",resultSet.getString("miasto"));
+				map.put("nr_telefonu",resultSet.getString("nr_telefonu"));
+				map.put("wlasciciele",resultSet.getString("wlasciciele"));
+				
+			
+			
+			resultSet.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return map;
+		
+	}
+
+
 
 	public void closeConnection() {
 		try {
