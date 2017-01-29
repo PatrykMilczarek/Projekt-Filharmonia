@@ -66,6 +66,20 @@ public void showUserInfo(){
 	user_list_view.setItems(items);
 }
 
+/*public void showSymphonyInfo(){
+	HashMap<String,String> info_map=Db_connection.getSymphonyInfoDB();
+	ObservableList<String> items =FXCollections.observableArrayList ();
+	
+	items.add("Nazwa: "+ info_map.get("nazwa"));
+	//items.add("Ulica: "+ info_map.get("ulica"));
+	items.add("Adres: "+ "ul."+info_map.get("ulica") + info_map.get("nr_budynku")+"/"+ info_map.get("miasto"));
+
+	items.add("Numer telefonu: "+ info_map.get("nr_telefonu"));
+	//items.add("Email: "+ info_map.get("e_mail"));
+
+	user_list_view.setItems(items);
+}*/
+
 public void initColumnsEmployee(){
 	name_worker_column.setCellValueFactory(new PropertyValueFactory<>("name_worker"));
 	surname_worker_column.setCellValueFactory(new PropertyValueFactory<>("surname_worker"));
@@ -80,8 +94,8 @@ public void initColumnsEmployee(){
 
 public void refreshEmployee(){
 
-	// dodac okienko ktore sie bedzie otwierac!
-    EmployeeTable.setItems(main.Db_connection.getEmployeeInfo());
+
+   EmployeeTable.setItems(Db_connection.getEmployeeInfo());
 
 }
 

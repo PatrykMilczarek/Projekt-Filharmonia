@@ -23,7 +23,7 @@ public class Db_connection {
 	private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:XE";
 	
-    public Statement stmt = null;
+    public static Statement stmt = null;
     
 	private static String USER;
 	private static String PASS;
@@ -105,6 +105,44 @@ public class Db_connection {
 
 		return map;
 	}
+	
+	/*public static HashMap<String,String> getSymphonyInfoDB() {
+
+		HashMap<String,String> map = new HashMap<String,String>();
+
+		PreparedStatement preparedStatement;
+
+		String query = "SELECT nazwa, ulica, nr_budynku, miasto, nr_telefonu, nazwisko from Filharmonie where id_filharmonii=? join wlasciciele_filharmonie using(id_filharmonii) join wlascicieke using(id_wlasciciela)";
+		
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			
+			preparedStatement.setString(1, CurrentUser.id_current_user+"");
+		
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			
+		
+			resultSet.next();
+			
+			map.put("nazwa",resultSet.getString("nazwa"));
+			map.put("ulica",resultSet.getString("ulica"));
+			map.put("nr_budynku",resultSet.getString("nr_budynku"));
+			map.put("miasto",resultSet.getString("miasto"));
+			map.put("nr_telefonu",resultSet.getString("nr_telefonu"));
+			map.put("nazwisko",resultSet.getString("nazwisko"));
+			
+		
+			
+			resultSet.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return map;
+	}*/
+
 
 	public void closeConnection() {
 		try {
@@ -219,26 +257,26 @@ public class Db_connection {
 	}
 	
 	  
-	public ObservableList<Employee> getEmployeeInfo(){
+	public static ObservableList<Employee> getEmployeeInfo(){
 		
-	        ObservableList<Employee> flights = FXCollections.observableArrayList();
+	        ObservableList<Employee> worker = FXCollections.observableArrayList();
 
 	        try{
 	            System.out.println("Creating statement...");
 	            stmt = conn.createStatement();
 
-	            String sql = "SELECT imie,nazwisko,ulica,nr_budynku, miasto, pesel, nazwa_stanowiska, nazwa FROM Pracownicy join stanowiska using(id_pracownika) join filharmonie using(id_filharmonii) ";
+	            String sql = "SELECT imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku, pracownicy.miasto, pesel, nazwa_stanowiska, nazwa FROM Pracownicy join stanowiska using(id_stanowiska) join filharmonie using(id_filharmonii) ";
 	            ResultSet rs = stmt.executeQuery(sql);
 
 
 	            while(rs.next()){
 
-	                String name_worker  = rs.getInt("imie");
+	                String name_worker  = rs.getString("imie");
 
 	                String surname_worker = rs.getString("nazwisko");
 	                String address_worker = rs.getString("ulica");
 
-	                String house_num_worker = rs.getDate("nr_budynku");
+	                String house_num_worker = rs.getString("nr_budynku");
 	                String town_worker = rs.getString("miasto");
 
 	                String pesel_worker = rs.getString("pesel");
@@ -268,7 +306,7 @@ public class Db_connection {
 
 	        }
 
-	        return flights;
+	        return worker;
 	    }
 
 }
