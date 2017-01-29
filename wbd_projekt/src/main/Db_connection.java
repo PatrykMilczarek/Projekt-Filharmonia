@@ -1,7 +1,5 @@
 package main;
 
-import java.sql.DriverManager;
-
 import java.util.HashMap;
 
 
@@ -68,7 +66,7 @@ public class Db_connection {
 		}
 	}
 
-	public static HashMap<String,String> getEmployeeInfoDB() {
+	public static HashMap<String,String> getCurrentUserInfo() {
 
 		HashMap<String,String> map = new HashMap<String,String>();
 
@@ -311,5 +309,56 @@ public class Db_connection {
 
 	        return worker;
 	    }
+	
+	public static ObservableList<Event> getEventsInfo(){
+		  
+        ObservableList<Event> event_list = FXCollections.observableArrayList();
+        PreparedStatement preparedStatement;
+		String query = "select * from lista_wystepow join wystepy using(id_wystepu) join filharmonie using(id_filharmonii) ";
+       
+		try{
+            
+			stmt = conn.createStatement();
+
+			 ResultSet rs = stmt.executeQuery(query);
+
+           
+   
+            while(rs.next()){
+
+                long id  = rs.getLong("id_wydarzenia");
+
+                String name = rs.getString("nazwa");
+                String starthour = rs.getString("godz_rozpoczecia");
+                
+                String time = rs.getString("czas_trwania");
+                Date date = rs.getDate("data");
+                int max_seats_number = rs.getInt("max_liczba_miejsc");
+                String symphony = rs.getString("filharmonie.nazwa");
+            
+
+
+                event_list.add(new Event(id,name,starthour,date,time,max_seats_number,symphony));
+
+            }
+
+            rs.close();
+            stmt.close();
+
+        }catch(SQLException se){
+            se.printStackTrace();
+        }finally{
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+                se2.printStackTrace();
+            }
+
+
+        }
+
+        return event_list;
+    }
 
 }

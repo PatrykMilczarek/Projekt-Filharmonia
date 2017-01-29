@@ -3,32 +3,44 @@ package main;
 import java.sql.Date;
 
 public class Event {
-	private int id;
+	private long id;
     private String name;
-    private String hour;
+    private String hour,time;
 
-    private Date date;
+    public String getTime() {
+		return time;
+	}
+
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+
+	private Date date;
     private int max_seats_number;
     private String symphony;
+    
 
 
-    public Event(int id,String name,String hour,Date date,int max_seats_number,String symphony){
+    public Event(long id,String name,String hour,Date date,String time,int max_seats_number,String symphony){
         this.id=id;
         this.name=name;
         this.hour=hour;
         this.date=date;
+        this.time=time;
         this.max_seats_number=max_seats_number;
         this.symphony=symphony;
         
     }
 
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

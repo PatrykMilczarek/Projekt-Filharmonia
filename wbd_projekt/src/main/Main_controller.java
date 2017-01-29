@@ -27,10 +27,12 @@ e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_la
 @FXML public TableColumn<Event, Date> event_date;
 @FXML public TableColumn<Event, Integer> event_seats;
 @FXML public TableColumn<Event, String> event_symphony;
+@FXML public TableColumn<Event, String> event_time;
 public ListView<String> user_list_view,salary_history_list;
 
 
 @FXML public TableView<Employee> EmployeeTable;
+@FXML public TableView<Event> EventsTable;
 @FXML public TableColumn<Employee, String> name_worker_column;
 @FXML public TableColumn<Employee, String> surname_worker_column;
 @FXML public TableColumn<Employee, String> address_worker_column;
@@ -50,6 +52,7 @@ public ListView<String> user_list_view,salary_history_list;
 @FXML
 public void initialize(){
 	initColumnsEmployee();
+	initEventColumns();
 	showUserInfo();
 	refreshEmployee();
 	
@@ -65,6 +68,7 @@ public void initEventColumns(){
 	event_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 	event_seats.setCellValueFactory(new PropertyValueFactory<>("max_seats_number"));
 	event_symphony.setCellValueFactory(new PropertyValueFactory<>("symphony"));
+	event_time.setCellValueFactory(new PropertyValueFactory<>("time"));
 
 }
 public void add_symphony(){
@@ -73,8 +77,12 @@ public void add_symphony(){
 	
 }
 
+public void showEventsInfo(){
+	
+	
+}
 public void showUserInfo(){
-	HashMap<String,String> info_map=Db_connection.getEmployeeInfoDB();
+	HashMap<String,String> info_map=Db_connection.getCurrentUserInfo();
 	ObservableList<String> info_items =FXCollections.observableArrayList();
 	
 	HashMap<Integer,String> salary_map=Db_connection.getEmployeeSalaryDB();
@@ -116,11 +124,14 @@ public void initColumnsEmployee(){
 
 public void refreshEmployee(){
 
-
    EmployeeTable.setItems(Db_connection.getEmployeeInfo());
 
 }
 
+
+public void refreshEvents(){
+	 EventsTable.setItems(Db_connection.getEventsInfo());
+}
 
 
 	
