@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -23,7 +20,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Main_controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Main_controller">
    <children>
       <VBox layoutX="190.0" layoutY="45.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -74,8 +71,8 @@
                                     <ListView fx:id="symphony_list_view" prefHeight="322.0" prefWidth="183.0" />
                                     <GridPane alignment="CENTER" prefHeight="226.0" prefWidth="419.0">
                                       <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="61.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="115.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="72.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="102.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="328.0" minWidth="10.0" prefWidth="195.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="328.0" minWidth="10.0" prefWidth="52.0" />
                                       </columnConstraints>
@@ -96,7 +93,7 @@
                                           <Label text="Numer telefonu" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                           <Label text="Numer budynku" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                          <TextField fx:id="symph_name" disable="true" GridPane.columnIndex="2" />
+                                          <TextField fx:id="symph_name" disable="true" editable="false" GridPane.columnIndex="2" />
                                           <TextField fx:id="symph_address" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                           <TextField fx:id="symph_num_house" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                           <TextField fx:id="symph_town" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
@@ -105,18 +102,23 @@
                                           <Label text="Właściciel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
                                              <children>
-                                                <Button mnemonicParsing="false" text="Edytuj" />
+                                                <Button fx:id="modyfie_symph" mnemonicParsing="false" onAction="#editSymph" text="Edytuj">
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets></Button>
                                                 <Pane prefHeight="53.0" prefWidth="49.0" />
                                                 <Button alignment="CENTER" mnemonicParsing="false" text="Usuń">
                                                    <opaqueInsets>
                                                       <Insets />
                                                    </opaqueInsets>
                                                 </Button>
+                                                <Button fx:id="save_symph_button" mnemonicParsing="false" onAction="#save_symph_modification" text="Zapisz" />
                                              </children>
                                              <opaqueInsets>
                                                 <Insets />
                                              </opaqueInsets>
                                           </HBox>
+                                          <Button fx:id="show_button" mnemonicParsing="false" onAction="#showSymphonyInfo" text="Wyświetl" GridPane.rowIndex="6" />
                                        </children>
                                     </GridPane>
                                  </children>

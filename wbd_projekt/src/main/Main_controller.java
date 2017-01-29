@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -25,6 +26,7 @@ e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_la
 @FXML public TableColumn<Event, String> event_name;
 @FXML public TableColumn<Event, String> event_start;
 @FXML public TableColumn<Event, Date> event_date;
+@FXML public TableColumn<Event, String> event_time;
 @FXML public TableColumn<Event, Integer> event_seats;
 @FXML public TableColumn<Event, String> event_symphony;
 public ListView<String> user_list_view,salary_history_list, symphony_list_view;
@@ -44,7 +46,8 @@ public ListView<String> user_list_view,salary_history_list, symphony_list_view;
 @FXML public ChoiceBox<String> search_worker_choicebox;
 @FXML public Button add_worker;
 @FXML public Button delete_worker;
-@FXML public Button modyfie_worker;
+@FXML public Button modyfie_worker, show_button, modyfie_symph, save_symph_button;
+
 
 
 
@@ -55,7 +58,6 @@ public void initialize(){
 	showUserInfo();
 	refreshEmployee();
 	showSymphonies();
-	
 	
 }
 
@@ -75,6 +77,55 @@ public void add_symphony(){
 	Db_connection.add_symphony_db(symph_name.getText(), symph_address.getText(), symph_num_house.getText(), symph_town.getText(), symph_tel_num.getText(), symph_owner.getText());
 	
 }
+
+public void showSymphonyInfo(){
+	String symphonySelected;
+	symphonySelected = symphony_list_view.getSelectionModel().getSelectedItem();
+    
+    HashMap<String,String> symphony_map=Db_connection.findSymphony(symphonySelected);
+
+    symph_name.setText(symphony_map.get("nazwa"));
+	symph_address.setText(symphony_map.get("ulica"));
+	symph_num_house.setText(symphony_map.get("nr_budynku"));
+	symph_town.setText(symphony_map.get("miasto"));
+	symph_tel_num.setText(symphony_map.get("nr_telefonu"));
+	symph_owner.setText(symphony_map.get("wlasciciele"));
+	
+}
+
+public void editSymph(){
+
+	symph_name.setEditable(true);
+	symph_name.setDisable(false);
+	symph_address.setEditable(true);
+	symph_address.setDisable(false);
+	symph_num_house.setEditable(true);
+	 symph_town.setEditable(true);
+	 symph_tel_num.setEditable(true);
+	 symph_owner.setEditable(true);
+	 symph_num_house.setDisable(false);
+	 symph_town.setDisable(false);
+	 symph_tel_num.setDisable(false);
+	 symph_owner.setDisable(false);
+
+}
+
+public void save_symph_modification(){
+	
+	String nazw=symph_owner.getText();
+	String nazw_symph=symph_name.getText();
+	
+	if (symph_name.isDisable()==false)
+	{
+		
+		Db_connection.modyfie_symph(symph_name.getText(), symph_town.getText(), symph_num_house.getText(),
+				symph_address.getText(), symph_tel_num.getText(), symph_owner.getText(), nazw,nazw_symph);
+		
+		System.out.println(symph_name.getText());
+	}
+	
+}
+
 
 public void showEventsInfo(){
 	
@@ -106,6 +157,18 @@ public void showUserInfo(){
 	
 	user_list_view.setItems(info_items);
 	salary_history_list.setItems(salary_items);
+}
+
+public void showSymphonies(){
+	
+	HashMap<Integer,String> info_map=Db_connection.getSymphonyDBlist();
+	ObservableList<String> info_items =FXCollections.observableArrayList();
+	for (int i=0;i<info_map.size(); i++){
+	info_items.add(info_map.get(i));}
+	
+	
+	symphony_list_view.setItems(info_items);
+	
 }
 
 
