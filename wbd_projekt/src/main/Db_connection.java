@@ -1,11 +1,11 @@
 package main;
 
 import java.sql.DriverManager;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.Map;
+
 import java.io.BufferedReader;
-import java.io.File;
+
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -98,6 +98,48 @@ public class Db_connection {
 		}
 
 		return map;
+	}
+	
+	public static HashMap<Integer,String> getEmployeeSalaryDB() {
+		
+		HashMap<Integer,String> map = new HashMap<Integer,String>();
+
+		PreparedStatement preparedStatement;
+
+		String query = "SELECT * from Wynagrodzenie where id_pracownika=?";
+		
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, CurrentUser.id_current_user+"");
+		
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			
+			int i=1;
+			while(resultSet.next()){
+				
+	
+				map.put(i++,resultSet.getString("pensja"));
+				map.put(i++,resultSet.getString("data_wyplaty"));
+				
+				
+			}
+			
+			
+			
+			
+			
+		
+			
+			resultSet.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return map;
+		
+		
 	}
 
 	public void closeConnection() {
