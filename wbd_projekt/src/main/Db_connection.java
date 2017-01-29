@@ -17,7 +17,7 @@ import java.sql.*;
 
 public class Db_connection {
 
-	// dodac wczytywanie z pliku
+
 
 	private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -51,10 +51,12 @@ public class Db_connection {
 
 	}
 
+	
+	
 	public void getDBUserFromFile() {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(
-					"C:\\Users\\Patryk Milczarek\\git\\Projekt-Filharmonia\\wbd_projekt\\src\\main\\dbinfo.txt"));
+					"C:\\Smart GIT\\Projekt-Filharmonia\\wbd_projekt\\src\\main\\dbinfo.txt"));
 
 			setUSER(in.readLine());
 			setPASS(in.readLine());
@@ -128,9 +130,7 @@ public class Db_connection {
 				
 			}
 			
-			
-			
-			
+		
 			
 		
 			
@@ -144,6 +144,75 @@ public class Db_connection {
 		
 		
 	}
+	
+public static HashMap<Integer,String> getSymphonyDBlist() {
+		
+		HashMap<Integer,String> map = new HashMap<Integer,String>();
+
+		PreparedStatement preparedStatement;
+
+		String query = "select nazwa from Filharmonie ";
+		
+		try {
+			preparedStatement = conn.prepareStatement(query);
+			//preparedStatement.setString(1, CurrentUser.id_current_user+"");
+		
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			int i=0;
+			while(resultSet.next()){
+				
+				map.put(i++,resultSet.getString("nazwa"));
+				
+			}
+			resultSet.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return map;
+		
+		
+	}
+	
+public static HashMap<String,String> findSymphony(String name) {
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+
+		PreparedStatement preparedStatement;
+
+		String query = "select nazwa, filharmonie.ulica, filharmonie.nr_budynku, filharmonie.miasto, filharmonie.nr_telefonu, wlasciciele.imie, wlasciciele.nazwisko from Filharmonie  join Wlasciciele_Filharmonie using(id_filharmonii) join Wlasciciele using(id_wlasciciela) where filharmonie.nazwa=?";
+		
+		try {
+		
+			preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, name);
+		
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			resultSet.next();
+		
+				map.put("nazwa",resultSet.getString("nazwa"));
+				map.put("ulica",resultSet.getString("ulica"));
+				map.put("nr_budynku",resultSet.getString("nr_budynku"));
+				map.put("miasto",resultSet.getString("miasto"));
+				map.put("nr_telefonu",resultSet.getString("nr_telefonu"));
+				map.put("wlasciciele",resultSet.getString("imie") + " " + resultSet.getString("nazwisko"));
+				
+			
+			
+			resultSet.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return map;
+		
+	}
+
+
 
 	public void closeConnection() {
 		try {
@@ -246,6 +315,45 @@ public class Db_connection {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public static void modyfie_symph(String symph_name, String symph_address, String symph_num_house,
+			String symph_town, String symph_tel_num, String symph_owner,String nazw,String nazw_symph ){
+		
+		PreparedStatement preparedStatement,preparedStatement2;
+
+		
+		String query = "UPDATE Filharmonie SET nazwa=?, miasto=?, ulica=?, nr_budynku=?, nr_telefonu=? where nazwa=?";
+		//String query2 = "UPDATE Wlasciciele SET imie=?, nazwisko=? where nazwisko=?";
+		try {
+			
+			
+			preparedStatement = conn.prepareStatement(query);
+			//preparedStatement2 = conn.prepareStatement(query2);
+			preparedStatement.setString(1, symph_name);
+			preparedStatement.setString(2, symph_town);
+			preparedStatement.setString(3, symph_address);
+			preparedStatement.setString(4, symph_num_house );
+			preparedStatement.setString(5, symph_tel_num);
+			preparedStatement.setString(6, nazw_symph);
+			
+			/*String[] parts = symph_owner.split(" ");
+			String symph_name_owner = parts[0]; 
+			String symph_surname_owner = parts[1];
+			
+			preparedStatement2.setString(1, symph_name_owner);
+			preparedStatement2.setString(2, symph_surname_owner);
+			preparedStatement2.setString(3, nazw );*/
+			preparedStatement.executeQuery();
+			//preparedStatement2.executeQuery();
+			preparedStatement.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 
 	public static void setUSER(String uSER) {
