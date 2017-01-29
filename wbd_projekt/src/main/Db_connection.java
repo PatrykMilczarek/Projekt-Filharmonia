@@ -1,35 +1,34 @@
 package main;
 
 import java.sql.DriverManager;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.Map;
+
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.BufferedReader;
-import java.io.File;
+
 import java.io.FileReader;
 import java.io.IOException;
 
-//import javafx.collections.FXCollections;
-//import javafx.collections.ObservableList;
+
 
 import java.sql.*;
 
 public class Db_connection {
 
+	// dodac wczytywanie z pliku
+
 	private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:XE";
-	
-    public static Statement stmt = null;
-    
+
 	private static String USER;
 	private static String PASS;
 
 	public static Connection conn;
-	
+	public static Statement stmt;
 	ObservableList<Employee> worker = FXCollections.observableArrayList();
 
 	public Db_connection() {
@@ -57,11 +56,12 @@ public class Db_connection {
 	public void getDBUserFromFile() {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(
-					"C:\\Smart Git\\Projekt-Filharmonia\\wbd_projekt\\src\\main\\dbinfo.txt"));
+					"C:\\Users\\Patryk Milczarek\\git\\Projekt-Filharmonia\\wbd_projekt\\src\\main\\dbinfo.txt"));
 
 			setUSER(in.readLine());
 			setPASS(in.readLine());
 
+			
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -106,31 +106,34 @@ public class Db_connection {
 		return map;
 	}
 	
-	/*public static HashMap<String,String> getSymphonyInfoDB() {
-
-		HashMap<String,String> map = new HashMap<String,String>();
+	public static HashMap<Integer,String> getEmployeeSalaryDB() {
+		
+		HashMap<Integer,String> map = new HashMap<Integer,String>();
 
 		PreparedStatement preparedStatement;
 
-		String query = "SELECT nazwa, ulica, nr_budynku, miasto, nr_telefonu, nazwisko from Filharmonie where id_filharmonii=? join wlasciciele_filharmonie using(id_filharmonii) join wlascicieke using(id_wlasciciela)";
+		String query = "SELECT * from Wynagrodzenie where id_pracownika=?";
 		
 		try {
 			preparedStatement = conn.prepareStatement(query);
-			
 			preparedStatement.setString(1, CurrentUser.id_current_user+"");
 		
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			
-		
-			resultSet.next();
+			int i=1;
+			while(resultSet.next()){
+				
+	
+				map.put(i++,resultSet.getString("pensja"));
+				map.put(i++,resultSet.getString("data_wyplaty"));
+				
+				
+			}
 			
-			map.put("nazwa",resultSet.getString("nazwa"));
-			map.put("ulica",resultSet.getString("ulica"));
-			map.put("nr_budynku",resultSet.getString("nr_budynku"));
-			map.put("miasto",resultSet.getString("miasto"));
-			map.put("nr_telefonu",resultSet.getString("nr_telefonu"));
-			map.put("nazwisko",resultSet.getString("nazwisko"));
+			
+			
+			
 			
 		
 			
@@ -141,8 +144,9 @@ public class Db_connection {
 		}
 
 		return map;
-	}*/
-
+		
+		
+	}
 
 	public void closeConnection() {
 		try {
@@ -224,7 +228,6 @@ public class Db_connection {
 		return id;
 	}
 
-	//nie ma insertowania wlaciciela
 	public static void add_symphony_db(String symph_name, String symph_address, String symph_num_house,
 			String symph_town, String symph_tel_num, String symph_owner) {
 		PreparedStatement preparedStatement;

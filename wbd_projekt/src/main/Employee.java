@@ -1,9 +1,12 @@
 package main;
 
+
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 
 public class Employee {
+	 
 	
 	public String name_worker, surname_worker, address_worker, house_num_worker, town_worker, pesel_worker, profession_worker, symphony_worker;
 
