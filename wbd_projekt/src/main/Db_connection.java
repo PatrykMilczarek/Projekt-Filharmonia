@@ -95,8 +95,7 @@ public class Db_connection {
 			map.put("nr_mieszkania",resultSet.getString("nr_mieszkania"));
 			map.put("nr_telefonu",resultSet.getString("nr_telefonu"));
 			map.put("e_mail",resultSet.getString("e_mail"));
-		
-			
+		System.out.println("lol");
 			resultSet.close();
 
 		} catch (Exception e) {
