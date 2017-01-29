@@ -31,6 +31,7 @@ public ListView<String> user_list_view,salary_history_list, symphony_list_view;
 
 
 @FXML public TableView<Employee> EmployeeTable;
+@FXML public TableView<Event> EventsTable;
 @FXML public TableColumn<Employee, String> name_worker_column;
 @FXML public TableColumn<Employee, String> surname_worker_column;
 @FXML public TableColumn<Employee, String> address_worker_column;
@@ -50,6 +51,7 @@ public ListView<String> user_list_view,salary_history_list, symphony_list_view;
 @FXML
 public void initialize(){
 	initColumnsEmployee();
+	initEventColumns();
 	showUserInfo();
 	refreshEmployee();
 	showSymphonies();
@@ -65,6 +67,7 @@ public void initEventColumns(){
 	event_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 	event_seats.setCellValueFactory(new PropertyValueFactory<>("max_seats_number"));
 	event_symphony.setCellValueFactory(new PropertyValueFactory<>("symphony"));
+	event_time.setCellValueFactory(new PropertyValueFactory<>("time"));
 
 }
 public void add_symphony(){
@@ -73,8 +76,12 @@ public void add_symphony(){
 	
 }
 
+public void showEventsInfo(){
+	
+	
+}
 public void showUserInfo(){
-	HashMap<String,String> info_map=Db_connection.getEmployeeInfoDB();
+	HashMap<String,String> info_map=Db_connection.getCurrentUserInfo();
 	ObservableList<String> info_items =FXCollections.observableArrayList();
 	
 	HashMap<Integer,String> salary_map=Db_connection.getEmployeeSalaryDB();
@@ -101,46 +108,6 @@ public void showUserInfo(){
 	salary_history_list.setItems(salary_items);
 }
 
-public void showSymphonies(){
-	//HashMap<Integer,String> info_map=Db_connection.getSymphonyDB();
-	//ObservableList<String> info_items =FXCollections.observableArrayList();
-	
-	HashMap<Integer,String> symphony_map=Db_connection.getSymphonyDB();
-	ObservableList<String> symph_items =FXCollections.observableArrayList();
-	
-
-	/*for(int i=1;i<symphony_map.size();i=i+1){
-	
-		symph_items.add("Nazwa filharmonii: "+ symphony_map.get(i) +
-		"Adres: "+ symphony_map.get(i+1)+ " " +symphony_map.get(i+2)+ " " + symphony_map.get(i+3)+
-		"Numer telefonu: " + symphony_map.get(i+4)+
-		"Nazwisko wlasciciela: " + symphony_map.get(i+5));
-	}*/
-	
-	
-	
-	
-
-	
-	//symphony_list_view.setItems(symph_items);
-
-}
-
-public void showSymphonyInfo(){
-	
-	String symphonySelected;
-	symphonySelected = symphony_list_view.getSelectionModel().getSelectedItem();
-    
-    HashMap<String,String> symphony_map=Db_connection.findSymphony(symphonySelected);
-
-    symph_name.setText(symphony_map.get("nazwa"));
-	symph_address.setText(symphony_map.get("ulica"));
-	symph_num_house.setText(symphony_map.get("nr_budynku"));
-	symph_town.setText(symphony_map.get("miasto"));
-	symph_tel_num.setText(symphony_map.get("nr_telefonu"));
-	symph_owner.setText(symphony_map.get("wlasciciele"));
-}
-
 
 public void initColumnsEmployee(){
 	name_worker_column.setCellValueFactory(new PropertyValueFactory<>("name_worker"));
@@ -156,11 +123,14 @@ public void initColumnsEmployee(){
 
 public void refreshEmployee(){
 
-
    EmployeeTable.setItems(Db_connection.getEmployeeInfo());
 
 }
 
+
+public void refreshEvents(){
+	 EventsTable.setItems(Db_connection.getEventsInfo());
+}
 
 
 	

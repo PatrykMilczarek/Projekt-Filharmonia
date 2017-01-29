@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -19,13 +23,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Main_controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Main_controller">
    <children>
       <VBox layoutX="190.0" layoutY="45.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Pane prefHeight="60.0" prefWidth="600.0">
                <children>
-                  <Button layoutX="526.0" layoutY="3.0" mnemonicParsing="false" text="Wyloguj" />
+                  <Button layoutX="587.0" layoutY="4.0" mnemonicParsing="false" text="Wyloguj" />
                   <Label fx:id="welcome_label" layoutX="14.0" layoutY="8.0" />
                </children>
             </Pane>
@@ -37,7 +41,7 @@
                            <children>
                               <Accordion>
                                  <panes>
-                                    <TitledPane prefHeight="341.0" prefWidth="602.0" text="Historia wypłat">
+                                    <TitledPane prefHeight="341.0" prefWidth="683.0" text="Historia wypłat">
                                        <content>
                                           <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                              <children>
@@ -158,11 +162,12 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView layoutX="35.0" layoutY="23.0" prefHeight="342.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="EventsTable" layoutX="35.0" layoutY="23.0" prefHeight="342.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="event_id" prefWidth="63.0" text="Id" />
                                   <TableColumn fx:id="event_name" prefWidth="119.0" text="Nazwa" />
                                     <TableColumn fx:id="event_start" prefWidth="75.0" text="Godz. rozpoczęcia" />
+                                    <TableColumn fx:id="event_time" prefWidth="75.0" text="Czas trwania" />
                                     <TableColumn fx:id="event_date" prefWidth="99.0" text="Data " />
                                     <TableColumn fx:id="event_seats" prefWidth="124.0" text="Max liczba miejsc" />
                                     <TableColumn fx:id="event_symphony" prefWidth="119.0" text="Filharmonia" />
