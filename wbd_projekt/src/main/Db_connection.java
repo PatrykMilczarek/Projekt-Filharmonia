@@ -106,43 +106,6 @@ public class Db_connection {
 		return map;
 	}
 	
-	/*public static HashMap<String,String> getSymphonyInfoDB() {
-
-		HashMap<String,String> map = new HashMap<String,String>();
-
-		PreparedStatement preparedStatement;
-
-		String query = "SELECT nazwa, ulica, nr_budynku, miasto, nr_telefonu, nazwisko from Filharmonie where id_filharmonii=? join wlasciciele_filharmonie using(id_filharmonii) join wlascicieke using(id_wlasciciela)";
-		
-		try {
-			preparedStatement = conn.prepareStatement(query);
-			
-			preparedStatement.setString(1, CurrentUser.id_current_user+"");
-		
-			ResultSet resultSet = preparedStatement.executeQuery();
-
-			
-		
-			resultSet.next();
-			
-			map.put("nazwa",resultSet.getString("nazwa"));
-			map.put("ulica",resultSet.getString("ulica"));
-			map.put("nr_budynku",resultSet.getString("nr_budynku"));
-			map.put("miasto",resultSet.getString("miasto"));
-			map.put("nr_telefonu",resultSet.getString("nr_telefonu"));
-			map.put("nazwisko",resultSet.getString("nazwisko"));
-			
-		
-			
-			resultSet.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return map;
-	}*/
-
 
 	public void closeConnection() {
 		try {
