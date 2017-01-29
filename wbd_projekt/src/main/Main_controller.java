@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+
 public class Main_controller {
 	
 public TextField symph_name, symph_address, symph_num_house, symph_town, symph_tel_num, symph_owner;
@@ -40,9 +41,10 @@ public ListView<String> user_list_view;
 
 @FXML
 public void initialize(){
-
+	initColumnsEmployee();
 	showUserInfo();
 	refreshEmployee();
+	
 	
 	
 }
@@ -66,19 +68,6 @@ public void showUserInfo(){
 	user_list_view.setItems(items);
 }
 
-/*public void showSymphonyInfo(){
-	HashMap<String,String> info_map=Db_connection.getSymphonyInfoDB();
-	ObservableList<String> items =FXCollections.observableArrayList ();
-	
-	items.add("Nazwa: "+ info_map.get("nazwa"));
-	//items.add("Ulica: "+ info_map.get("ulica"));
-	items.add("Adres: "+ "ul."+info_map.get("ulica") + info_map.get("nr_budynku")+"/"+ info_map.get("miasto"));
-
-	items.add("Numer telefonu: "+ info_map.get("nr_telefonu"));
-	//items.add("Email: "+ info_map.get("e_mail"));
-
-	user_list_view.setItems(items);
-}*/
 
 public void initColumnsEmployee(){
 	name_worker_column.setCellValueFactory(new PropertyValueFactory<>("name_worker"));

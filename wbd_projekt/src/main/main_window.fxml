@@ -152,14 +152,14 @@
                                     </HBox>
                                     <TableView fx:id="EmployeeTable" prefHeight="333.0" prefWidth="600.0">
                                       <columns>
-                                        <TableColumn fx:id="name_worker" prefWidth="75.0" text="Imię" />
-                                        <TableColumn fx:id="surname_worker" prefWidth="75.0" text="Nazwisko" />
-                                          <TableColumn fx:id="address_worker" prefWidth="75.0" text="Ulica" />
-                                          <TableColumn fx:id="house_num_worker" prefWidth="75.0" text="Numer budynku" />
-                                          <TableColumn fx:id="town_worker" prefWidth="75.0" text="Miasto" />
-                                          <TableColumn fx:id="pesel_worker" prefWidth="75.0" text="PESEL" />
-                                          <TableColumn fx:id="proffesion_worker" prefWidth="75.0" text="Stanowisko" />
-                                          <TableColumn fx:id="symphony_worker" prefWidth="75.0" text="Filharmonia" />
+                                        <TableColumn fx:id="name_worker_column" prefWidth="75.0" text="Imię" />
+                                        <TableColumn fx:id="surname_worker_column" prefWidth="75.0" text="Nazwisko" />
+                                          <TableColumn fx:id="address_worker_column" prefWidth="75.0" text="Ulica" />
+                                          <TableColumn fx:id="house_num_worker_column" prefWidth="75.0" text="Numer budynku" />
+                                          <TableColumn fx:id="town_worker_column" prefWidth="75.0" text="Miasto" />
+                                          <TableColumn fx:id="pesel_worker_column" prefWidth="75.0" text="PESEL" />
+                                          <TableColumn fx:id="profession_worker_column" prefWidth="75.0" text="Stanowisko" />
+                                          <TableColumn fx:id="symphony_worker_column" prefWidth="75.0" text="Filharmonia" />
                                       </columns>
                                     </TableView>
                                  </children>

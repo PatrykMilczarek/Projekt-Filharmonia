@@ -5,7 +5,7 @@ import javafx.scene.control.TableColumn;
 
 public class Employee {
 	
-	private String name_worker, surname_worker, address_worker, house_num_worker, town_worker, pesel_worker, profession_worker, symphony_worker;
+	public String name_worker, surname_worker, address_worker, house_num_worker, town_worker, pesel_worker, profession_worker, symphony_worker;
 
 	public Employee(String name_worker, String surname_worker, String address_worker, String house_num_worker, String town_worker,String pesel_worker,String profession_worker,String symphony_worker)
 	{

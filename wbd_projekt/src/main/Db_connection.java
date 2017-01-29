@@ -282,6 +282,8 @@ public class Db_connection {
 	                String pesel_worker = rs.getString("pesel");
 	                String profession_worker = rs.getString("nazwa_stanowiska");
 	                String symphony_worker = rs.getString("nazwa");
+	                
+	            
 
 
 	               worker.add(new Employee(name_worker, surname_worker, address_worker, house_num_worker, town_worker, pesel_worker, profession_worker, symphony_worker));
@@ -290,8 +292,6 @@ public class Db_connection {
 
 	            rs.close();
 	            stmt.close();
-
-
 
 	        }catch(SQLException se){
 	            se.printStackTrace();
