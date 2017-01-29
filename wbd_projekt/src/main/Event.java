@@ -21,8 +21,10 @@ public class Event {
     private int max_seats_number;
     private String symphony;
     
-
-
+    public Event()
+    {
+    	
+    }
     public Event(long id,String name,String hour,Date date,String time,int max_seats_number,String symphony){
         this.id=id;
         this.name=name;

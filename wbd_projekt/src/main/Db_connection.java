@@ -312,7 +312,7 @@ public class Db_connection {
 	public static ObservableList<Event> getEventsInfo(){
 		  
         ObservableList<Event> event_list = FXCollections.observableArrayList();
-        PreparedStatement preparedStatement;
+
 		String query = "select * from lista_wystepow join wystepy using(id_wystepu) join filharmonie using(id_filharmonii) ";
        
 		try{
@@ -328,15 +328,16 @@ public class Db_connection {
                 long id  = rs.getLong("id_wydarzenia");
 
                 String name = rs.getString("nazwa");
+          
                 String starthour = rs.getString("godz_rozpoczecia");
                 
                 String time = rs.getString("czas_trwania");
                 Date date = rs.getDate("data");
                 int max_seats_number = rs.getInt("max_liczba_miejsc");
-                String symphony = rs.getString("filharmonie.nazwa");
+                String symphony = rs.getString(10);
             
 
-
+               
                 event_list.add(new Event(id,name,starthour,date,time,max_seats_number,symphony));
 
             }

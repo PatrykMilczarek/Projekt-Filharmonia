@@ -20,7 +20,7 @@ public class Login_controller {
 		
 		String login, pass;
 		
-		login= login_text.getText();
+		login= login_text																																									.getText();
 		pass= pass_text.getText();
 		
 		boolean check= Db_connection.verifyLogin(login,pass);
@@ -35,7 +35,7 @@ public class Login_controller {
 			try{
 			Parent main_root = FXMLLoader.load(getClass().getResource("/main/main_window.fxml"));
 			main.main_stage.setScene(new Scene(main_root));
-			main.main_stage.setTitle("Management System");
+			main.main_stage.setTitle("System Zarz¹dzania Filharmoni¹");
 			}catch(Exception e){
 				e.printStackTrace();
 			}

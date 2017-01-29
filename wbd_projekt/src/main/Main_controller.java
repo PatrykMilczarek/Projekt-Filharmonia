@@ -7,6 +7,9 @@ import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -29,7 +32,7 @@ e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_la
 @FXML public TableColumn<Event, String> event_symphony;
 @FXML public TableColumn<Event, String> event_time;
 public ListView<String> user_list_view,salary_history_list;
-
+public static ObservableList<Event> event_list;
 
 @FXML public TableView<Employee> EmployeeTable;
 @FXML public TableView<Event> EventsTable;
@@ -45,7 +48,7 @@ public ListView<String> user_list_view,salary_history_list;
 @FXML public ChoiceBox<String> search_worker_choicebox;
 @FXML public Button add_worker;
 @FXML public Button delete_worker;
-@FXML public Button modyfie_worker;
+@FXML public Button modyfie_worker,reservation_button;
 
 
 
@@ -55,7 +58,7 @@ public void initialize(){
 	initEventColumns();
 	showUserInfo();
 	refreshEmployee();
-	
+	refreshEvents();
 	
 	
 }
@@ -77,10 +80,7 @@ public void add_symphony(){
 	
 }
 
-public void showEventsInfo(){
-	
-	
-}
+
 public void showUserInfo(){
 	HashMap<String,String> info_map=Db_connection.getCurrentUserInfo();
 	ObservableList<String> info_items =FXCollections.observableArrayList();
@@ -130,9 +130,34 @@ public void refreshEmployee(){
 
 
 public void refreshEvents(){
-	 EventsTable.setItems(Db_connection.getEventsInfo());
+	event_list=Db_connection.getEventsInfo();
+
+	EventsTable.setItems(event_list);
 }
 
+public void reserveEvent(){
+	Event selectedEvent= EventsTable.getSelectionModel().getSelectedItem();
+	try{
+		
+		
+		if(selectedEvent != null){
+		Reservation_controller.setEventNameAndId(selectedEvent.getId(),selectedEvent.getName());
+		}
+		
+		Parent reserve_root = FXMLLoader.load(getClass().getResource("/main/reservation_list_window.fxml"));
+
+		main.reservation_stage.setScene(new Scene(reserve_root));
+		main.reservation_stage.setTitle("Rezerwacja");
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	if(selectedEvent != null){
+		main.reservation_stage.showAndWait();}
+}
+}
 
 	
-}
+
