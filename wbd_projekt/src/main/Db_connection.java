@@ -4,13 +4,16 @@ import java.sql.DriverManager;
 
 import java.util.HashMap;
 
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.BufferedReader;
 
 import java.io.FileReader;
 import java.io.IOException;
 
-//import javafx.collections.FXCollections;
-//import javafx.collections.ObservableList;
+
 
 import java.sql.*;
 
@@ -25,6 +28,8 @@ public class Db_connection {
 	private static String PASS;
 
 	public static Connection conn;
+	
+	ObservableList<Employee> worker = FXCollections.observableArrayList();
 
 	public Db_connection() {
 
@@ -233,9 +238,10 @@ public class Db_connection {
 			preparedStatement.setString(1, symph_name);
 			preparedStatement.setString(2, symph_town);
 			preparedStatement.setString(3, "xxx");
-			preparedStatement.setString(2, symph_town);
-			preparedStatement.setString(2, symph_town);
-			preparedStatement.setString(2, symph_town);
+			preparedStatement.setString(4, symph_address);
+			preparedStatement.setString(5, symph_num_house);
+			preparedStatement.setString(6, symph_tel_num);
+			preparedStatement.setString(7, "yyy");
 			preparedStatement.executeQuery();
 
 		} catch (Exception e) {
@@ -251,5 +257,58 @@ public class Db_connection {
 	public static void setPASS(String pASS) {
 		PASS = pASS;
 	}
+	
+	  
+	public static ObservableList<Employee> getEmployeeInfo(){
+		
+	        ObservableList<Employee> worker = FXCollections.observableArrayList();
+
+	        try{
+	            System.out.println("Creating statement...");
+	            stmt = conn.createStatement();
+
+	            String sql = "SELECT imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku, pracownicy.miasto, pesel, nazwa_stanowiska, nazwa FROM Pracownicy join stanowiska using(id_stanowiska) join filharmonie using(id_filharmonii) ";
+	            ResultSet rs = stmt.executeQuery(sql);
+
+
+	            while(rs.next()){
+
+	                String name_worker  = rs.getString("imie");
+
+	                String surname_worker = rs.getString("nazwisko");
+	                String address_worker = rs.getString("ulica");
+
+	                String house_num_worker = rs.getString("nr_budynku");
+	                String town_worker = rs.getString("miasto");
+
+	                String pesel_worker = rs.getString("pesel");
+	                String profession_worker = rs.getString("nazwa_stanowiska");
+	                String symphony_worker = rs.getString("nazwa");
+	                
+	            
+
+
+	               worker.add(new Employee(name_worker, surname_worker, address_worker, house_num_worker, town_worker, pesel_worker, profession_worker, symphony_worker));
+
+	            }
+
+	            rs.close();
+	            stmt.close();
+
+	        }catch(SQLException se){
+	            se.printStackTrace();
+	        }finally{
+	            try{
+	                if(stmt!=null)
+	                    stmt.close();
+	            }catch(SQLException se2){
+	                se2.printStackTrace();
+	            }
+
+
+	        }
+
+	        return worker;
+	    }
 
 }

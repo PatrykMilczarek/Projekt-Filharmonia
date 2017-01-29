@@ -7,9 +7,12 @@ import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -25,11 +28,33 @@ e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_la
 @FXML public TableColumn<Event, Integer> event_seats;
 @FXML public TableColumn<Event, String> event_symphony;
 public ListView<String> user_list_view,salary_history_list;
+e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_label,address_label;
+
+@FXML public TableView<Employee> EmployeeTable;
+@FXML public TableColumn<Employee, String> name_worker_column;
+@FXML public TableColumn<Employee, String> surname_worker_column;
+@FXML public TableColumn<Employee, String> address_worker_column;
+@FXML public TableColumn<Employee, String> house_num_worker_column;
+@FXML public TableColumn<Employee, String> town_worker_column;
+@FXML public TableColumn<Employee, String> pesel_worker_column;
+@FXML public TableColumn<Employee, String> profession_worker_column;
+@FXML public TableColumn<Employee, String> symphony_worker_column;
+@FXML public TextField search_worker_textfield;
+@FXML public ChoiceBox<String> search_worker_choicebox;
+@FXML public Button add_worker;
+@FXML public Button delete_worker;
+@FXML public Button modyfie_worker;
+
+public ListView<String> user_list_view;
 
 @FXML
 public void initialize(){
-
+	initColumnsEmployee();
 	showUserInfo();
+	refreshEmployee();
+	
+	
+	
 }
 
 
@@ -75,5 +100,28 @@ public void showUserInfo(){
 	user_list_view.setItems(info_items);
 	salary_history_list.setItems(salary_items);
 }
+
+
+public void initColumnsEmployee(){
+	name_worker_column.setCellValueFactory(new PropertyValueFactory<>("name_worker"));
+	surname_worker_column.setCellValueFactory(new PropertyValueFactory<>("surname_worker"));
+	address_worker_column.setCellValueFactory(new PropertyValueFactory<>("address_worker"));
+	house_num_worker_column.setCellValueFactory(new PropertyValueFactory<>("house_num_worker"));
+	town_worker_column.setCellValueFactory(new PropertyValueFactory<>("town_worker"));
+	pesel_worker_column.setCellValueFactory(new PropertyValueFactory<>("pesel_worker"));
+	profession_worker_column.setCellValueFactory(new PropertyValueFactory<>("profession_worker"));
+	name_worker_column.setCellValueFactory(new PropertyValueFactory<>("name_worker"));
+	symphony_worker_column.setCellValueFactory(new PropertyValueFactory<>("symphony_worker"));
+}
+
+public void refreshEmployee(){
+
+
+   EmployeeTable.setItems(Db_connection.getEmployeeInfo());
+
+}
+
+
+
 	
 }

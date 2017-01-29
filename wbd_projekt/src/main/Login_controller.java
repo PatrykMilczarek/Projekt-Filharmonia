@@ -42,7 +42,6 @@ public class Login_controller {
 			main.main_stage.show();
 			
 			
-			
 		}
 		else {error_label.setText("Niepoprawny login lub has³o");
 		error_label.setStyle("-fx-text-fill:red;");

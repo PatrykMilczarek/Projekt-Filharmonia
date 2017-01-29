@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -14,6 +10,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -22,7 +19,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Main_controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Main_controller">
    <children>
       <VBox layoutX="190.0" layoutY="45.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -132,23 +129,23 @@
                                  <children>
                                     <HBox prefHeight="39.0" prefWidth="600.0">
                                        <children>
-                                          <ChoiceBox prefHeight="27.0" prefWidth="154.0" />
-                                          <TextField />
-                                          <Button mnemonicParsing="false" text="Dodaj" />
-                                          <Button mnemonicParsing="false" text="Usuń" />
-                                          <Button mnemonicParsing="false" text="Edytuj" />
+                                          <ChoiceBox fx:id="search_worker_choicebox" prefHeight="27.0" prefWidth="154.0" />
+                                          <TextField fx:id="search_worker_textfield" />
+                                          <Button fx:id="add_button" mnemonicParsing="false" text="Dodaj" />
+                                          <Button fx:id="delete_button" mnemonicParsing="false" text="Usuń" />
+                                          <Button fx:id="modyfie_button" mnemonicParsing="false" text="Edytuj" />
                                        </children>
                                     </HBox>
-                                    <TableView prefHeight="333.0" prefWidth="600.0">
+                                    <TableView fx:id="EmployeeTable" prefHeight="333.0" prefWidth="600.0">
                                       <columns>
-                                        <TableColumn prefWidth="75.0" text="Imię" />
-                                        <TableColumn prefWidth="75.0" text="Nazwisko" />
-                                          <TableColumn prefWidth="75.0" text="Ulica" />
-                                          <TableColumn prefWidth="75.0" text="Numer budynku" />
-                                          <TableColumn prefWidth="75.0" text="Miasto" />
-                                          <TableColumn prefWidth="75.0" text="PESEL" />
-                                          <TableColumn prefWidth="75.0" text="Stanowisko" />
-                                          <TableColumn prefWidth="75.0" text="Filharmonia" />
+                                        <TableColumn fx:id="name_worker_column" prefWidth="75.0" text="Imię" />
+                                        <TableColumn fx:id="surname_worker_column" prefWidth="75.0" text="Nazwisko" />
+                                          <TableColumn fx:id="address_worker_column" prefWidth="75.0" text="Ulica" />
+                                          <TableColumn fx:id="house_num_worker_column" prefWidth="75.0" text="Numer budynku" />
+                                          <TableColumn fx:id="town_worker_column" prefWidth="75.0" text="Miasto" />
+                                          <TableColumn fx:id="pesel_worker_column" prefWidth="75.0" text="PESEL" />
+                                          <TableColumn fx:id="profession_worker_column" prefWidth="75.0" text="Stanowisko" />
+                                          <TableColumn fx:id="symphony_worker_column" prefWidth="75.0" text="Filharmonia" />
                                       </columns>
                                     </TableView>
                                  </children>
