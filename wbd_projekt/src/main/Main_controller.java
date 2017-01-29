@@ -28,7 +28,7 @@ e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_la
 @FXML public TableColumn<Event, Integer> event_seats;
 @FXML public TableColumn<Event, String> event_symphony;
 public ListView<String> user_list_view,salary_history_list;
-e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_label,address_label;
+
 
 @FXML public TableView<Employee> EmployeeTable;
 @FXML public TableColumn<Employee, String> name_worker_column;
@@ -45,7 +45,7 @@ e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_la
 @FXML public Button delete_worker;
 @FXML public Button modyfie_worker;
 
-public ListView<String> user_list_view;
+
 
 @FXML
 public void initialize(){

@@ -28,7 +28,7 @@ public class Db_connection {
 	private static String PASS;
 
 	public static Connection conn;
-	
+	public static Statement stmt;
 	ObservableList<Employee> worker = FXCollections.observableArrayList();
 
 	public Db_connection() {
@@ -61,6 +61,7 @@ public class Db_connection {
 			setUSER(in.readLine());
 			setPASS(in.readLine());
 
+			
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
