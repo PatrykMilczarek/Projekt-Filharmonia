@@ -25,7 +25,7 @@ public TextField symph_name, symph_address, symph_num_house, symph_town, symph_t
 public Label name_label,symphony_label,account_label,surname_label,
 e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_label,address_label,welcome_label;
 @FXML public TableColumn<Event, Integer> event_id;
-@FXML public TableColumn<Event, String> event_name;
+@FXML public TableColumn<Event, String> event_name,event_time;
 @FXML public TableColumn<Event, String> event_start;
 @FXML public TableColumn<Event, Date> event_date;
 @FXML public TableColumn<Event, Integer> event_seats;
@@ -50,7 +50,8 @@ public static ObservableList<Event> event_list;
 @FXML public Button reservation_button;
 @FXML public Button modyfie_worker, show_button, modyfie_symph, save_symph_button;
 
-
+public static String nazw;
+public String search_option="";
 
 
 @FXML
@@ -62,7 +63,14 @@ public void initialize(){
 	refreshEvents();
 	showSymphonies();
 	
-	
+	search_worker_choicebox.getItems().addAll("Nazwisko","Filharmonia","Miasto");
+	search_worker_choicebox.valueProperty().addListener((v,oldValue,newValue)-> search_option = newValue);
+
+	search_worker_textfield.textProperty().addListener((v,oldv,newv)->{
+		
+	EmployeeTable.setItems(Db_connection.getEmployeeInfoByAttribute(newv,search_option));
+	});
+
 }
 
 
@@ -87,7 +95,10 @@ public void showSymphonyInfo(){
 	symphonySelected = symphony_list_view.getSelectionModel().getSelectedItem();
     
     HashMap<String,String> symphony_map=Db_connection.findSymphony(symphonySelected);
-
+	nazw=symphony_map.get("wlasciciele");
+	String[] parts2 = nazw.split(" ");
+	
+	nazw = parts2[1];
     symph_name.setText(symphony_map.get("nazwa"));
 	symph_address.setText(symphony_map.get("ulica"));
 	symph_num_house.setText(symphony_map.get("nr_budynku"));
@@ -114,18 +125,35 @@ public void editSymph(){
 
 }
 
+public void stopEditSymph(){
+	symph_name.setEditable(false);
+	symph_name.setDisable(true);
+	symph_address.setEditable(false);
+	symph_address.setDisable(true);
+	symph_num_house.setEditable(false);
+	 symph_town.setEditable(false);
+	 symph_tel_num.setEditable(false);
+	 symph_owner.setEditable(false);
+	 symph_num_house.setDisable(true);
+	 symph_town.setDisable(true);
+	 symph_tel_num.setDisable(true);
+	 symph_owner.setDisable(true);
+}
+
 public void save_symph_modification(){
 	
-	String nazw=symph_owner.getText();
+
 	String nazw_symph=symph_name.getText();
 	
 	if (symph_name.isDisable()==false)
 	{
 		
-		Db_connection.modyfie_symph(symph_name.getText(), symph_town.getText(), symph_num_house.getText(),
-				symph_address.getText(), symph_tel_num.getText(), symph_owner.getText(), nazw,nazw_symph);
+		Db_connection.modify_symph(symph_name.getText(), symph_address.getText(), symph_num_house.getText(),
+				symph_town.getText(), symph_tel_num.getText(), symph_owner.getText(), nazw,nazw_symph);
 		
-		System.out.println(symph_name.getText());
+		stopEditSymph();
+		
+		
 	}
 	
 }
