@@ -15,11 +15,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 public class Main_controller {
 	
@@ -27,13 +27,14 @@ public TextField symph_name, symph_address, symph_num_house, symph_town, symph_t
 public Label name_label,symphony_label,account_label,surname_label,
 e_mail_label,profession_label,tel_label,start_work_label,house_num_label,town_label,address_label,welcome_label;
 @FXML public TableColumn<Event, Integer> event_id;
-@FXML public TableColumn<Event, String> event_name;
+@FXML public TableColumn<Event, String> event_name,event_time;
 @FXML public TableColumn<Event, String> event_start;
 @FXML public TableColumn<Event, Date> event_date;
-@FXML public TableColumn<Event, String> event_time;
+
 @FXML public TableColumn<Event, Integer> event_seats;
 @FXML public TableColumn<Event, String> event_symphony;
 public ListView<String> user_list_view,salary_history_list, symphony_list_view;
+public static ObservableList<Event> event_list;
 
 
 @FXML public TableView<Employee> EmployeeTable;
@@ -48,12 +49,19 @@ public ListView<String> user_list_view,salary_history_list, symphony_list_view;
 @FXML public TableColumn<Employee, String> symphony_worker_column;
 @FXML public TextField search_worker_textfield;
 @FXML public ChoiceBox<String> search_worker_choicebox;
-@FXML public Button add_worker;
+@FXML public Button add_worker,delete_event_button,edit_event_button;
 @FXML public Button delete_worker;
 @FXML public Button modyfie_worker, show_button, modyfie_symph, save_symph_button;
 String last_symph;
 
 
+
+@FXML public Button reservation_button;
+@FXML public Button modify_worker, show_button, modyfie_symph, save_symph_button;
+@FXML public Tab symph_tab,owners_tab;
+public static String nazw;
+public String search_option="";
+public static String user_type;
 
 @FXML
 public void initialize(){
@@ -61,11 +69,39 @@ public void initialize(){
 	initEventColumns();
 	showUserInfo();
 	refreshEmployee();
+	refreshEvents();
 	showSymphonies();
+	checkUser(user_type);
 	
+	search_worker_choicebox.getItems().addAll("Nazwisko","Filharmonia","Miasto");
+	search_worker_choicebox.valueProperty().addListener((v,oldValue,newValue)-> search_option = newValue);
+
+	search_worker_textfield.textProperty().addListener((v,oldv,newv)->{
+		
+	EmployeeTable.setItems(Db_connection.getEmployeeInfoByAttribute(newv,search_option));
+	});
+
 }
 
+public void checkUser(String type){
+	switch (type){
+	
+	
+	case "finanse":
+		symph_tab.setDisable(true);
+		owners_tab.setDisable(true);
+		add_worker.setVisible(false);
+		delete_worker.setVisible(false);
+		modify_worker.setVisible(false);
+		delete_event_button.setVisible(false);
+		edit_event_button.setVisible(false);
+		reservation_button.setVisible(false);
+		break;
+		
+	
 
+	}
+}
 public void initEventColumns(){
 	event_id.setCellValueFactory(new PropertyValueFactory<>("id"));
 	event_name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -89,7 +125,11 @@ public void showSymphonyInfo(){
     
     HashMap<String,String> symphony_map=Db_connection.findSymphony(symphonySelected);
    
-    System.out.println(symphony_map.get("nazwa"));
+    
+	nazw=symphony_map.get("wlasciciele");
+	String[] parts2 = nazw.split(" ");
+	
+	nazw = parts2[1];
     symph_name.setText(symphony_map.get("nazwa"));
 	symph_address.setText(symphony_map.get("ulica"));
 	symph_num_house.setText(symphony_map.get("nr_budynku"));
@@ -115,17 +155,35 @@ public void editSymph(){
 	 symph_owner.setDisable(false);
 
 }
+public void stopEditSymph(){
+	symph_name.setEditable(false);
+	symph_name.setDisable(true);
+	symph_address.setEditable(false);
+	symph_address.setDisable(true);
+	symph_num_house.setEditable(false);
+	 symph_town.setEditable(false);
+	 symph_tel_num.setEditable(false);
+	 symph_owner.setEditable(false);
+	 symph_num_house.setDisable(true);
+	 symph_town.setDisable(true);
+	 symph_tel_num.setDisable(true);
+	 symph_owner.setDisable(true);
+}
+
+
 
 public void save_symph_modification(){
 	
-	String nazw=symph_owner.getText();
 	String nazw_symph=symph_name.getText();
 	
 	if (symph_name.isDisable()==false)
 	{
 		
-		Db_connection.modyfie_symph(symph_name.getText(), symph_town.getText(), symph_num_house.getText(),
-				symph_address.getText(), symph_tel_num.getText(), symph_owner.getText(), nazw,nazw_symph);
+		Db_connection.modify_symph(symph_name.getText(), symph_address.getText(), symph_num_house.getText(),
+				symph_town.getText(), symph_tel_num.getText(), symph_owner.getText(), nazw,nazw_symph);
+		
+		stopEditSymph();
+		
 		
 		
 	}
@@ -217,12 +275,35 @@ public void refreshEmployee(){
 }
 
 
-
-
 public void refreshEvents(){
-	 EventsTable.setItems(Db_connection.getEventsInfo());
+	event_list=Db_connection.getEventsInfo();
+
+	EventsTable.setItems(event_list);
 }
 
+public void reserveEvent(){
+	Event selectedEvent= EventsTable.getSelectionModel().getSelectedItem();
+	try{
+		
+		
+		if(selectedEvent != null){
+		Reservation_controller.setEventNameAndId(selectedEvent.getId(),selectedEvent.getName());
+		}
+		
+		Parent reserve_root = FXMLLoader.load(getClass().getResource("/main/reservation_list_window.fxml"));
+
+		main.reservation_stage.setScene(new Scene(reserve_root));
+		main.reservation_stage.setTitle("Rezerwacja");
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	if(selectedEvent != null){
+		main.reservation_stage.showAndWait();}
+}
+}
 
 }
 	

@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class main extends Application {
-	public static Stage main_stage, login_stage;
+	public static Stage main_stage, login_stage,reservation_stage;
 
 	public void start(Stage primaryStage) {
 		login_stage = primaryStage;
@@ -17,7 +17,7 @@ public class main extends Application {
 			Parent login_root = FXMLLoader.load(getClass().getResource("/main/login_window.fxml"));
 
 			main_stage = new Stage();
-
+			reservation_stage= new Stage();
 			Scene scene_login = new Scene(login_root);
 
 			login_stage.setScene(scene_login);

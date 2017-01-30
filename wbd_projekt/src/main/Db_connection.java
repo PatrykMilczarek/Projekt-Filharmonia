@@ -85,7 +85,7 @@ public class Db_connection {
 			map.put("nr_mieszkania", resultSet.getString("nr_mieszkania"));
 			map.put("nr_telefonu", resultSet.getString("nr_telefonu"));
 			map.put("e_mail", resultSet.getString("e_mail"));
-			System.out.println("lol");
+		
 			resultSet.close();
 
 		} catch (Exception e) {
@@ -272,7 +272,7 @@ public class Db_connection {
 		return id;
 	}
 
-	public static void add_symphony_db(int last, String symph_name, String symph_address, String symph_num_house,
+	public static void add_symphony_db(String symph_name, String symph_address, String symph_num_house,
 			String symph_town, String symph_tel_num, String symph_owner) {
 		PreparedStatement preparedStatement;
 
@@ -374,18 +374,18 @@ public class Db_connection {
 
 	}
 
-	public static void modyfie_symph(String symph_name, String symph_address, String symph_num_house, String symph_town,
+public static void modify_symph(String symph_name, String symph_address, String symph_num_house, String symph_town,
 			String symph_tel_num, String symph_owner, String nazw, String nazw_symph) {
 
 		PreparedStatement preparedStatement, preparedStatement2;
 
 		String query = "UPDATE Filharmonie SET nazwa=?, miasto=?, ulica=?, nr_budynku=?, nr_telefonu=? where nazwa=?";
-		// String query2 = "UPDATE Wlasciciele SET imie=?, nazwisko=? where
-		// nazwisko=?";
+		String query2 = "UPDATE Wlasciciele SET imie=?, nazwisko=? where nazwisko=?";
 		try {
 
+			conn.setAutoCommit(false);
 			preparedStatement = conn.prepareStatement(query);
-			// preparedStatement2 = conn.prepareStatement(query2);
+			preparedStatement2 = conn.prepareStatement(query2);
 			preparedStatement.setString(1, symph_name);
 			preparedStatement.setString(2, symph_town);
 			preparedStatement.setString(3, symph_address);
@@ -393,22 +393,77 @@ public class Db_connection {
 			preparedStatement.setString(5, symph_tel_num);
 			preparedStatement.setString(6, nazw_symph);
 
-			/*
-			 * String[] parts = symph_owner.split(" "); String symph_name_owner
-			 * = parts[0]; String symph_surname_owner = parts[1];
-			 * 
-			 * preparedStatement2.setString(1, symph_name_owner);
-			 * preparedStatement2.setString(2, symph_surname_owner);
-			 * preparedStatement2.setString(3, nazw );
-			 */
-			preparedStatement.executeQuery();
-			// preparedStatement2.executeQuery();
-			preparedStatement.close();
+			String[] parts = symph_owner.split(" ");
+			String symph_name_owner = parts[0];
+			String symph_surname_owner = parts[1];
 
+			preparedStatement2.setString(1, symph_name_owner);
+			preparedStatement2.setString(2, symph_surname_owner);
+			preparedStatement2.setString(3, nazw);
+			preparedStatement.executeUpdate();
+
+			preparedStatement2.executeUpdate();
+
+			conn.commit();
+
+			conn.setAutoCommit(true);
+			preparedStatement.close();
+			preparedStatement2.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public static ObservableList<Employee> getEmployeeInfo() {
+
+		ObservableList<Employee> worker = FXCollections.observableArrayList();
+
+		try {
+			System.out.println("Creating statement...");
+			stmt = conn.createStatement();
+
+			String sql = "SELECT imie, nazwisko,pracownicy.ulica,"
+					+ " pracownicy.nr_budynku, pracownicy.miasto, pesel, nazwa_stanowiska, nazwa "
+					+ "FROM Pracownicy join stanowiska using(id_stanowiska) "
+					+ "join filharmonie using(id_filharmonii) ";
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+
+				String name_worker = rs.getString("imie");
+
+				String surname_worker = rs.getString("nazwisko");
+				String address_worker = rs.getString("ulica");
+
+				String house_num_worker = rs.getString("nr_budynku");
+				String town_worker = rs.getString("miasto");
+
+				String pesel_worker = rs.getString("pesel");
+				String profession_worker = rs.getString("nazwa_stanowiska");
+				String symphony_worker = rs.getString("nazwa");
+
+				worker.add(new Employee(name_worker, surname_worker, address_worker, house_num_worker, town_worker,
+						pesel_worker, profession_worker, symphony_worker));
+
+			}
+
+			rs.close();
+			stmt.close();
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+				se2.printStackTrace();
+			}
+
+		}
+
+		return worker;
 	}
 
 	public static void setUSER(String uSER) {

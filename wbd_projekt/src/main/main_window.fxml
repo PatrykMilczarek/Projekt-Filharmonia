@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -20,7 +24,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Main_controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Main_controller">
    <children>
       <VBox layoutX="190.0" layoutY="45.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -62,7 +66,7 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                <Tab text="Filharmonie">
+                <Tab fx:id="symph_tab" text="Filharmonie">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -86,7 +90,7 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#add_symphony" text="Dodaj" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <Button mnemonicParsing="false" text="Dodaj" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                           <Label text="Nazwa" GridPane.columnIndex="1" />
                                           <Label text="Ulica" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label text="Miasto" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -135,6 +139,11 @@
                                  <children>
                                     <HBox prefHeight="39.0" prefWidth="600.0">
                                        <children>
+                                          <Button fx:id="add_worker" mnemonicParsing="false" text="Dodaj" />
+                                          <Button fx:id="delete_worker" mnemonicParsing="false" text="Usuń" />
+                                          <Button fx:id="modify_worker" mnemonicParsing="false" text="Edytuj" />
+                                          <Pane prefHeight="25.0" prefWidth="221.0" />
+                                          <TextField fx:id="search_worker_textfield" />
                                           <ChoiceBox fx:id="search_worker_choicebox" prefHeight="27.0" prefWidth="154.0" />
                                           <TextField fx:id="search_worker_textfield" />
                                           <Button fx:id="add_button" mnemonicParsing="false" text="Dodaj" />
@@ -164,21 +173,42 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="EventsTable" layoutX="35.0" layoutY="23.0" prefHeight="342.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <columns>
-                                  <TableColumn fx:id="event_id" prefWidth="63.0" text="Id" />
-                                  <TableColumn fx:id="event_name" prefWidth="119.0" text="Nazwa" />
-                                    <TableColumn fx:id="event_start" prefWidth="75.0" text="Godz. rozpoczęcia" />
-                                    <TableColumn fx:id="event_time" prefWidth="75.0" text="Czas trwania" />
-                                    <TableColumn fx:id="event_date" prefWidth="99.0" text="Data " />
-                                    <TableColumn fx:id="event_seats" prefWidth="124.0" text="Max liczba miejsc" />
-                                    <TableColumn fx:id="event_symphony" prefWidth="119.0" text="Filharmonia" />
-                                </columns>
-                              </TableView>
+                              <VBox layoutY="-1.0" prefHeight="343.0" prefWidth="691.0">
+                                 <children>
+                                    <HBox prefHeight="41.0" prefWidth="691.0" spacing="15.0">
+                                       <children>
+                                          <Button fx:id="add_event_button" mnemonicParsing="false" text="Dodaj" />
+                                          <Button fx:id="edit_event_button" mnemonicParsing="false" text="Edytuj" />
+                                          <Button fx:id="delete_event_button" mnemonicParsing="false" text="Usun" />
+                                          <Button fx:id="reservation_button" mnemonicParsing="false" onAction="#reserveEvent" text="Rezerwuj" />
+                                          <Pane prefHeight="31.0" prefWidth="151.0" />
+                                          <TextField />
+                                          <ChoiceBox prefHeight="25.0" prefWidth="71.0" />
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets top="10.0" />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets left="15.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <TableView fx:id="EventsTable" layoutX="35.0" layoutY="42.0" prefHeight="300.0" prefWidth="691.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
+                                      <columns>
+                                        <TableColumn fx:id="event_id" prefWidth="63.0" text="Id" />
+                                        <TableColumn fx:id="event_name" prefWidth="139.0" text="Nazwa" />
+                                          <TableColumn fx:id="event_start" prefWidth="85.0" text="Godz. rozpoczęcia" />
+                                          <TableColumn fx:id="event_time" prefWidth="78.0" text="Czas trwania" />
+                                          <TableColumn fx:id="event_date" prefWidth="106.0" text="Data " />
+                                          <TableColumn fx:id="event_seats" prefWidth="107.0" text="Max liczba miejsc" />
+                                          <TableColumn fx:id="event_symphony" prefWidth="112.0" text="Filharmonia" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
                            </children></AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text="Właściciele">
+                  <Tab fx:id="owners_tab" text="Właściciele">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
