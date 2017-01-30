@@ -271,8 +271,99 @@ public class Db_connection {
 
 		return id;
 	}
+	
+	public static ObservableList<Employee> getEmployeeInfoByAttribute(String attribute,String option){
 
-	public static void add_symphony_db(String symph_name, String symph_address, String symph_num_house,
+        ObservableList<Employee> worker = FXCollections.observableArrayList();
+
+
+
+        try{
+          
+            stmt = conn.createStatement();
+
+            String sql="";
+      
+            
+            switch(option) {
+          
+                case "Nazwisko":
+        		
+        		
+                	
+                    sql="SELECT distinct  id_pracownika, imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku,"
+            		+ " pracownicy.miasto, pesel, nazwa_stanowiska, nazwa "
+            		+ " FROM Pracownicy,stanowiska,filharmonie where upper(nazwisko) LIKE UPPER('%" + attribute.toUpperCase() + "%')";
+                    
+          
+                    break;
+                case "Filharmonia":
+                	 sql="SELECT distinct  id_pracownika, imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku,"
+                     		+ " pracownicy.miasto, pesel, nazwa_stanowiska, nazwa "
+                     		+ " FROM Pracownicy,filharmonie,stanowiska where upper(nazwa) LIKE UPPER('%" + attribute.toUpperCase() + "%')";
+                     	
+                    break;
+                case "Miasto":
+                	 sql="SELECT distinct  id_pracownika, imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku,"
+                      		+ " pracownicy.miasto, pesel, nazwa_stanowiska, nazwa "
+                      		+ "FROM Pracownicy, stanowiska, filharmonie  where upper(nazwa_stanowiska) LIKE UPPER('%" + attribute.toUpperCase() + "%') ";
+            
+
+                default:
+        			sql = "SELECT distinct id_pracownika, imie, nazwisko,pracownicy.ulica,"
+        					+ " pracownicy.nr_budynku, pracownicy.miasto, pesel, nazwa_stanowiska, nazwa "
+        					+ " FROM Pracownicy,stanowiska,filharmonie ";
+
+            }
+            ResultSet rs = stmt.executeQuery(sql);
+
+
+
+
+            while (rs.next()) {
+            	
+            	int id_worker = rs.getInt("id_pracownika");
+
+				String name_worker = rs.getString("imie");
+
+				String surname_worker = rs.getString("nazwisko");
+				String address_worker = rs.getString("ulica");
+
+				String house_num_worker = rs.getString("nr_budynku");
+				String town_worker = rs.getString("miasto");
+
+				String pesel_worker = rs.getString("pesel");
+				String profession_worker = rs.getString("nazwa_stanowiska");
+				String symphony_worker = rs.getString("nazwa");
+
+				worker.add(new Employee(id_worker, name_worker, surname_worker, address_worker, house_num_worker, town_worker,
+						pesel_worker, profession_worker, symphony_worker));
+
+			}
+
+			rs.close();
+			stmt.close();
+
+
+
+        }catch(SQLException se){
+            se.printStackTrace();
+        }finally{
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+                se2.printStackTrace();
+            }
+
+
+        }
+
+        return worker;
+
+    }
+
+	public static void add_symphony_db(int last,String symph_name, String symph_address, String symph_num_house,
 			String symph_town, String symph_tel_num, String symph_owner) {
 		PreparedStatement preparedStatement;
 
@@ -289,7 +380,6 @@ public class Db_connection {
 			preparedStatement.setString(7, symph_tel_num);
 			preparedStatement.setString(8, last+"");
 
-			System.out.println(last + 1);
 
 			preparedStatement.executeUpdate();
 
@@ -423,13 +513,15 @@ public static void modify_symph(String symph_name, String symph_address, String 
 			System.out.println("Creating statement...");
 			stmt = conn.createStatement();
 
-			String sql = "SELECT imie, nazwisko,pracownicy.ulica,"
+			String sql = "SELECT id_pracownika, imie, nazwisko,pracownicy.ulica,"
 					+ " pracownicy.nr_budynku, pracownicy.miasto, pesel, nazwa_stanowiska, nazwa "
 					+ "FROM Pracownicy join stanowiska using(id_stanowiska) "
 					+ "join filharmonie using(id_filharmonii) ";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
+				
+				int id_worker = rs.getInt("id_pracownika");
 
 				String name_worker = rs.getString("imie");
 
@@ -443,7 +535,7 @@ public static void modify_symph(String symph_name, String symph_address, String 
 				String profession_worker = rs.getString("nazwa_stanowiska");
 				String symphony_worker = rs.getString("nazwa");
 
-				worker.add(new Employee(name_worker, surname_worker, address_worker, house_num_worker, town_worker,
+				worker.add(new Employee(id_worker, name_worker, surname_worker, address_worker, house_num_worker, town_worker,
 						pesel_worker, profession_worker, symphony_worker));
 
 			}
@@ -474,54 +566,6 @@ public static void modify_symph(String symph_name, String symph_address, String 
 		PASS = pASS;
 	}
 
-	public static ObservableList<Employee> getEmployeeInfo() {
-
-		ObservableList<Employee> worker = FXCollections.observableArrayList();
-
-		try {
-			System.out.println("Creating statement...");
-			stmt = conn.createStatement();
-
-			String sql = "SELECT id_pracownika, imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku, pracownicy.miasto, pesel, nazwa_stanowiska, nazwa FROM Pracownicy join stanowiska using(id_stanowiska) join filharmonie using(id_filharmonii) ";
-			ResultSet rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-
-				Integer id_worker = rs.getInt("id_pracownika");
-				String name_worker = rs.getString("imie");
-
-				String surname_worker = rs.getString("nazwisko");
-				String address_worker = rs.getString("ulica");
-
-				String house_num_worker = rs.getString("nr_budynku");
-				String town_worker = rs.getString("miasto");
-
-				String pesel_worker = rs.getString("pesel");
-				String profession_worker = rs.getString("nazwa_stanowiska");
-				String symphony_worker = rs.getString("nazwa");
-
-				worker.add(new Employee(id_worker, name_worker, surname_worker, address_worker, house_num_worker,
-						town_worker, pesel_worker, profession_worker, symphony_worker));
-
-			}
-
-			rs.close();
-			stmt.close();
-
-		} catch (SQLException se) {
-			se.printStackTrace();
-		} finally {
-			try {
-				if (stmt != null)
-					stmt.close();
-			} catch (SQLException se2) {
-				se2.printStackTrace();
-			}
-
-		}
-
-		return worker;
-	}
 
 	public static ObservableList<Event> getEventsInfo() {
 

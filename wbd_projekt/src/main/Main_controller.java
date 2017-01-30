@@ -51,13 +51,13 @@ public static ObservableList<Event> event_list;
 @FXML public ChoiceBox<String> search_worker_choicebox;
 @FXML public Button add_worker,delete_event_button,edit_event_button;
 @FXML public Button delete_worker;
-@FXML public Button modyfie_worker, show_button, modyfie_symph, save_symph_button;
+@FXML public Button modify_worker, show_button, modyfie_symph, save_symph_button;
 String last_symph;
 
 
 
 @FXML public Button reservation_button;
-@FXML public Button modify_worker, show_button, modyfie_symph, save_symph_button;
+
 @FXML public Tab symph_tab,owners_tab;
 public static String nazw;
 public String search_option="";
@@ -303,7 +303,7 @@ public void reserveEvent(){
 	if(selectedEvent != null){
 		main.reservation_stage.showAndWait();}
 }
-}
+
 
 }
 	
