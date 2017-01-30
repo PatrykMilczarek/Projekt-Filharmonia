@@ -86,7 +86,7 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Button mnemonicParsing="false" text="Dodaj" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <Button mnemonicParsing="false" onAction="#add_symphony" text="Dodaj" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                           <Label text="Nazwa" GridPane.columnIndex="1" />
                                           <Label text="Ulica" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label text="Miasto" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -138,7 +138,7 @@
                                           <ChoiceBox fx:id="search_worker_choicebox" prefHeight="27.0" prefWidth="154.0" />
                                           <TextField fx:id="search_worker_textfield" />
                                           <Button fx:id="add_button" mnemonicParsing="false" text="Dodaj" />
-                                          <Button fx:id="delete_button" mnemonicParsing="false" text="Usuń" />
+                                          <Button fx:id="delete_button" mnemonicParsing="false" onAction="#delete_worker" text="Usuń" />
                                           <Button fx:id="modyfie_button" mnemonicParsing="false" text="Edytuj" />
                                        </children>
                                     </HBox>

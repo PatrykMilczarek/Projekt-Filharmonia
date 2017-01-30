@@ -11,8 +11,8 @@ import javafx.scene.control.TextField;
 
 public class Login_controller {
 	
-	public TextField login_text;
-	public PasswordField pass_text;
+	public  TextField login_text;
+	public  PasswordField pass_text;
 	public Button ok_button;
 	public Label error_label;
 	
@@ -48,6 +48,11 @@ public class Login_controller {
 		
 		
 		}
+		
 	}
-
+	
+	
 }
+	
+
+

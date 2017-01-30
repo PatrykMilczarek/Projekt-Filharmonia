@@ -8,6 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -16,6 +19,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class Main_controller {
 	
@@ -47,7 +51,7 @@ public ListView<String> user_list_view,salary_history_list, symphony_list_view;
 @FXML public Button add_worker;
 @FXML public Button delete_worker;
 @FXML public Button modyfie_worker, show_button, modyfie_symph, save_symph_button;
-
+String last_symph;
 
 
 
@@ -74,8 +78,9 @@ public void initEventColumns(){
 }
 public void add_symphony(){
 	
-	Db_connection.add_symphony_db(symph_name.getText(), symph_address.getText(), symph_num_house.getText(), symph_town.getText(), symph_tel_num.getText(), symph_owner.getText());
 	
+	Db_connection.add_symphony_db(Db_connection.getLastSymph(last_symph),symph_name.getText(), symph_address.getText(), symph_num_house.getText(), symph_town.getText(), symph_tel_num.getText(), symph_owner.getText());
+	showSymphonies();
 }
 
 public void showSymphonyInfo(){
@@ -83,7 +88,8 @@ public void showSymphonyInfo(){
 	symphonySelected = symphony_list_view.getSelectionModel().getSelectedItem();
     
     HashMap<String,String> symphony_map=Db_connection.findSymphony(symphonySelected);
-
+   
+    System.out.println(symphony_map.get("nazwa"));
     symph_name.setText(symphony_map.get("nazwa"));
 	symph_address.setText(symphony_map.get("ulica"));
 	symph_num_house.setText(symphony_map.get("nr_budynku"));
@@ -121,8 +127,20 @@ public void save_symph_modification(){
 		Db_connection.modyfie_symph(symph_name.getText(), symph_town.getText(), symph_num_house.getText(),
 				symph_address.getText(), symph_tel_num.getText(), symph_owner.getText(), nazw,nazw_symph);
 		
-		System.out.println(symph_name.getText());
+		
 	}
+	
+}
+
+public void delete_worker (){
+	Employee workerSelected;
+	workerSelected = EmployeeTable.getSelectionModel().getSelectedItem();
+	
+	
+	
+	Db_connection.delete_worker_db(workerSelected.getId_worker());
+	
+	refreshEmployee();
 	
 }
 
@@ -159,13 +177,21 @@ public void showUserInfo(){
 	salary_history_list.setItems(salary_items);
 }
 
+
+
 public void showSymphonies(){
 	
+	
 	HashMap<Integer,String> info_map=Db_connection.getSymphonyDBlist();
+	
+	
 	ObservableList<String> info_items =FXCollections.observableArrayList();
+
 	for (int i=0;i<info_map.size(); i++){
 	info_items.add(info_map.get(i));}
 	
+	last_symph= info_map.get(info_map.size()-1);
+	System.out.println(last_symph);
 	
 	symphony_list_view.setItems(info_items);
 	
@@ -191,10 +217,13 @@ public void refreshEmployee(){
 }
 
 
+
+
 public void refreshEvents(){
 	 EventsTable.setItems(Db_connection.getEventsInfo());
 }
 
 
-	
 }
+	
+

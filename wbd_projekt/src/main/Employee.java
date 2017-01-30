@@ -7,11 +7,12 @@ import javafx.scene.control.TableColumn;
 
 public class Employee {
 	 
-	
+	public Integer id_worker;
 	public String name_worker, surname_worker, address_worker, house_num_worker, town_worker, pesel_worker, profession_worker, symphony_worker;
 
-	public Employee(String name_worker, String surname_worker, String address_worker, String house_num_worker, String town_worker,String pesel_worker,String profession_worker,String symphony_worker)
+	public Employee(Integer id_worker, String name_worker, String surname_worker, String address_worker, String house_num_worker, String town_worker,String pesel_worker,String profession_worker,String symphony_worker)
 	{
+		this.id_worker=id_worker;
 		this.name_worker=name_worker;
 		this.surname_worker=surname_worker;
 		this.address_worker=address_worker; 
@@ -20,6 +21,10 @@ public class Employee {
 		this.pesel_worker= pesel_worker;
 		this.profession_worker=profession_worker;
 		this.symphony_worker=symphony_worker;
+	}
+	
+	public Integer getId_worker() {
+		return id_worker;
 	}
 
 	public String getName_worker() {
