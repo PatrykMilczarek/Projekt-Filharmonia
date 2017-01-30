@@ -27,7 +27,7 @@ public class Login_controller {
 		
 		if (check) {
 			
-			Db_connection.checkUserType(login, pass);
+			Main_controller.user_type=Db_connection.checkUserType(login, pass);
 			CurrentUser.id_current_user=Db_connection.getUserId(login, pass);
 			
 			main.login_stage.hide();

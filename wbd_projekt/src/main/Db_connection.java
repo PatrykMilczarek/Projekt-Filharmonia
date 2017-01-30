@@ -85,7 +85,7 @@ public class Db_connection {
 			map.put("nr_mieszkania", resultSet.getString("nr_mieszkania"));
 			map.put("nr_telefonu", resultSet.getString("nr_telefonu"));
 			map.put("e_mail", resultSet.getString("e_mail"));
-			System.out.println("lol");
+	
 			resultSet.close();
 
 		} catch (Exception e) {
@@ -460,29 +460,28 @@ public class Db_connection {
         		
         		
                 	
-                    sql="SELECT imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku,"
+                    sql="SELECT distinct imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku,"
             		+ " pracownicy.miasto, pesel, nazwa_stanowiska, nazwa "
-            		+ " FROM Pracownicy join stanowiska using(id_stanowiska) join filharmonie using(id_filharmonii) ON upper(nazwisko) LIKE UPPER('%" + attribute.toUpperCase() + "%')";
+            		+ " FROM Pracownicy,stanowiska,filharmonie where upper(nazwisko) LIKE UPPER('%" + attribute.toUpperCase() + "%')";
                     
-                    System.out.println(sql);
+          
                     break;
                 case "Filharmonia":
-                	 sql="SELECT imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku,"
+                	 sql="SELECT distinct imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku,"
                      		+ " pracownicy.miasto, pesel, nazwa_stanowiska, nazwa "
-                     		+ " FROM Pracownicy where join stanowiska using(id_stanowiska) on upper(nazwa) LIKE " + "UPPER('%" + attribute.toUpperCase() + "%')"
-                     		+ " join filharmonie using(id_filharmonii)";
+                     		+ " FROM Pracownicy,filharmonie,stanowiska where upper(nazwa) LIKE UPPER('%" + attribute.toUpperCase() + "%')";
+                     	
                     break;
                 case "Miasto":
-                	 sql="SELECT imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku,"
+                	 sql="SELECT distinct imie, nazwisko,pracownicy.ulica, pracownicy.nr_budynku,"
                       		+ " pracownicy.miasto, pesel, nazwa_stanowiska, nazwa "
-                      		+ "FROM Pracownicy join stanowiska using(id_stanowiska) join filharmonie using(id_filharmonii) ON upper(nazwa_stanowiska) LIKE UPPER('%" + attribute.toUpperCase() + "%') ";
+                      		+ "FROM Pracownicy, stanowiska, filharmonie  where upper(nazwa_stanowiska) LIKE UPPER('%" + attribute.toUpperCase() + "%') ";
             
 
                 default:
-        			sql = "SELECT imie, nazwisko,pracownicy.ulica,"
+        			sql = "SELECT distinct imie, nazwisko,pracownicy.ulica,"
         					+ " pracownicy.nr_budynku, pracownicy.miasto, pesel, nazwa_stanowiska, nazwa "
-        					+ " FROM Pracownicy join stanowiska using(id_stanowiska) "
-        					+ " join filharmonie using(id_filharmonii) ";
+        					+ " FROM Pracownicy,stanowiska,filharmonie ";
 
             }
             ResultSet rs = stmt.executeQuery(sql);

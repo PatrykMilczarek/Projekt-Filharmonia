@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -20,7 +24,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Main_controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Main_controller">
    <children>
       <VBox layoutX="190.0" layoutY="45.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -62,7 +66,7 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                <Tab text="Filharmonie">
+                <Tab fx:id="symph_tab" text="Filharmonie">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -135,11 +139,12 @@
                                  <children>
                                     <HBox prefHeight="39.0" prefWidth="600.0">
                                        <children>
-                                          <ChoiceBox fx:id="search_worker_choicebox" prefHeight="27.0" prefWidth="154.0" />
+                                          <Button fx:id="add_worker" mnemonicParsing="false" text="Dodaj" />
+                                          <Button fx:id="delete_worker" mnemonicParsing="false" text="Usuń" />
+                                          <Button fx:id="modify_worker" mnemonicParsing="false" text="Edytuj" />
+                                          <Pane prefHeight="25.0" prefWidth="221.0" />
                                           <TextField fx:id="search_worker_textfield" />
-                                          <Button fx:id="add_button" mnemonicParsing="false" text="Dodaj" />
-                                          <Button fx:id="delete_button" mnemonicParsing="false" text="Usuń" />
-                                          <Button fx:id="modyfie_button" mnemonicParsing="false" text="Edytuj" />
+                                          <ChoiceBox fx:id="search_worker_choicebox" prefHeight="27.0" prefWidth="154.0" />
                                        </children>
                                     </HBox>
                                     <TableView fx:id="EmployeeTable" prefHeight="333.0" prefWidth="600.0">
@@ -168,9 +173,9 @@
                                  <children>
                                     <HBox prefHeight="41.0" prefWidth="691.0" spacing="15.0">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Dodaj" />
-                                          <Button mnemonicParsing="false" text="Edytuj" />
-                                          <Button mnemonicParsing="false" text="Usun" />
+                                          <Button fx:id="add_event_button" mnemonicParsing="false" text="Dodaj" />
+                                          <Button fx:id="edit_event_button" mnemonicParsing="false" text="Edytuj" />
+                                          <Button fx:id="delete_event_button" mnemonicParsing="false" text="Usun" />
                                           <Button fx:id="reservation_button" mnemonicParsing="false" onAction="#reserveEvent" text="Rezerwuj" />
                                           <Pane prefHeight="31.0" prefWidth="151.0" />
                                           <TextField />
@@ -199,7 +204,7 @@
                            </children></AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text="Właściciele">
+                  <Tab fx:id="owners_tab" text="Właściciele">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>

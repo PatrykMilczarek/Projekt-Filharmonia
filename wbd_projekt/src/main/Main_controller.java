@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -45,14 +46,14 @@ public static ObservableList<Event> event_list;
 @FXML public TableColumn<Employee, String> symphony_worker_column;
 @FXML public TextField search_worker_textfield;
 @FXML public ChoiceBox<String> search_worker_choicebox;
-@FXML public Button add_worker;
+@FXML public Button add_worker,delete_event_button,edit_event_button;
 @FXML public Button delete_worker;
 @FXML public Button reservation_button;
-@FXML public Button modyfie_worker, show_button, modyfie_symph, save_symph_button;
-
+@FXML public Button modify_worker, show_button, modyfie_symph, save_symph_button;
+@FXML public Tab symph_tab,owners_tab;
 public static String nazw;
 public String search_option="";
-
+public static String user_type;
 
 @FXML
 public void initialize(){
@@ -62,6 +63,7 @@ public void initialize(){
 	refreshEmployee();
 	refreshEvents();
 	showSymphonies();
+	checkUser(user_type);
 	
 	search_worker_choicebox.getItems().addAll("Nazwisko","Filharmonia","Miasto");
 	search_worker_choicebox.valueProperty().addListener((v,oldValue,newValue)-> search_option = newValue);
@@ -73,7 +75,25 @@ public void initialize(){
 
 }
 
+public void checkUser(String type){
+	switch (type){
+	
+	
+	case "finanse":
+		symph_tab.setDisable(true);
+		owners_tab.setDisable(true);
+		add_worker.setVisible(false);
+		delete_worker.setVisible(false);
+		modify_worker.setVisible(false);
+		delete_event_button.setVisible(false);
+		edit_event_button.setVisible(false);
+		reservation_button.setVisible(false);
+		break;
+		
+	
 
+	}
+}
 public void initEventColumns(){
 	event_id.setCellValueFactory(new PropertyValueFactory<>("id"));
 	event_name.setCellValueFactory(new PropertyValueFactory<>("name"));
