@@ -1,6 +1,6 @@
 # Projekt-Filharmonia
 
-Technologie: Java, JavaFX, JDBC, Oracle
+Technologie: Java, JavaFX, JDBC, Oracle, SQL
 
 Projekt poglądowy aplikacji wykorzystującej połączenie z bazą danych Oracle.
 Aplikacja pozwala na zarządzanie dowolną Filharmonią (dodawanie, usuwanie, edycja etc. danych (np. danych pracowników) z bazy danych).
